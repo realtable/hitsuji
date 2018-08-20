@@ -1,6 +1,6 @@
 = Hitsuji
 
-rdoc-image:https://img.shields.io/travis/realtable/hitsuji.svg rdoc-image:https://img.shields.io/github/issues/realtable/hitsuji.svg rdoc-image:https://img.shields.io/gem/dt/hitsuji.svg rdoc-image:https://img.shields.io/gem/v/hitsuji.svg
+{rdoc-image:https://img.shields.io/travis/realtable/hitsuji.svg}[https://travis-ci.com/realtable/hitsuji] {rdoc-image:https://img.shields.io/github/issues/realtable/hitsuji.svg}[https://github.com/realtable/hitsuji/issues] {rdoc-image:https://img.shields.io/gem/dt/hitsuji.svg}[https://rubygems.org/gems/hitsuji] {rdoc-image:https://img.shields.io/gem/v/hitsuji.svg}[https://rubygems.org/gems/hitsuji]
 
 Hitsuji is a library that lets you easily create, edit, manage and apply custom management systems. It is scalable from library card databases to performance analysis all the way to complete content management systems (like Wordpress.com).
 
@@ -14,7 +14,7 @@ gem :: https://rubygems.org/gems/hitsuji
 
 == Usage
 
-Below are some examples of what Hitsuji can do:
+Below are some examples of what Hitsuji can do.
 
 === Example 1
 

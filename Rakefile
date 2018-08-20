@@ -11,9 +11,9 @@ Rake::TestTask.new :test do |t|
   t.libs << 'test'
 end
 
-task :build do |t|
+task :build do |_t|
   Rake::Task[:test].invoke
   Rake::Task[:rdoc].invoke
 end
 
-task :default => :build
+task default: :build
