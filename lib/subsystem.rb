@@ -1,7 +1,6 @@
-# item object
 class Item
   
-  def initialize(name, value)
+  def initialize(name, value) # :nodoc:
     @name = name
     @value = value
   end
@@ -11,15 +10,14 @@ class Item
   
 end
 
-# linker object
 class Linker
-  
-  def initialize(name, value)
-    for i in value
-      if i.class != Linker and i.class != Item
-        throw 'err'
-      end
-    end
+
+  def initialize(name, value) # :nodoc:
+    #value.each do |i|
+    #  if i.class != Linker and i.class != Item
+    #    throw 'err'
+    #  end
+    #end
     
     @name = name
     @value = value
@@ -30,15 +28,14 @@ class Linker
   
 end
 
-# operation object
 class Operation
   
-  def initialize(name, input, &func)     
+  def initialize(name, input, block) # :nodoc:  
     @name = name 
     @input = input
-    @block = func
+    @block = block
   end
   
-  attr_reader :name, :input
+  attr_reader :name, :input, :block
   
 end

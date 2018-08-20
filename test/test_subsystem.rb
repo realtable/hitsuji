@@ -36,9 +36,7 @@ class SubsystemTest < Minitest::Test
     my_item3 = Item.new(:y, 'y')
     my_item4 = Item.new(:x, 'x')
     my_linker2 = Linker.new(:b2, [my_item3, my_item4])
-    my_op = Operation.new(:c, my_linker2) do |arg1, arg2|
-      arg1 + arg2
-    end
+    my_op = Operation.new(:c, my_linker2, %{ |arg1, arg2| arg1 + arg2 })
     
     # read test
     assert_equal my_op.class, Operation
