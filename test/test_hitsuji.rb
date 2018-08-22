@@ -7,20 +7,20 @@ class HitsujiTest < Minitest::Test
     assert_equal my_system.class, Hitsuji
 
     # item test
-    my_item = my_system.item(:a, '1')
+    my_item = Hitsuji.item(:a, '1')
     assert_equal my_item.class, Item
     assert_equal my_item.name, :a
     assert_equal my_item.value, '1'
 
     # linker test
-    my_item2 = my_system.item(:b, '2')
-    my_linker = my_system.linker(:c, [my_item, my_item2])
+    my_item2 = Hitsuji.item(:b, '2')
+    my_linker = Hitsuji.linker(:c, [my_item, my_item2])
     assert_equal my_linker.class, Linker
     assert_equal my_linker.name, :c
     assert_equal my_linker.value, [my_item, my_item2]
 
     # operation test
-    my_op = my_system.operation(:d, my_linker, %( |arg1, arg2| arg1 + arg2 ))
+    my_op = Hitsuji.operation(:d, my_linker, %( |arg1, arg2| arg1 + arg2 ))
     assert_equal my_op.class, Operation
     assert_equal my_op.name, :d
     assert_equal my_op.input.class, Linker
@@ -35,13 +35,13 @@ class HitsujiTest < Minitest::Test
     my_system4 = Hitsuji.new
 
     # export test
-    x = my_system.item(:i, 2)
+    x = Hitsuji.item(:i, 2)
     my_system.bind(x)
-    my_system.bind(my_system.linker(:j, [x]))
+    my_system.bind(Hitsuji.linker(:j, [x]))
     my_system.export('/tmp/test_hitsuji.tmp')
 
     my_system2.bind(x)
-    my_system2.bind(my_system.linker(:j, [x]))
+    my_system2.bind(Hitsuji.linker(:j, [x]))
     my_system2.export('/tmp/test_hitsuji2.tmp')
 
     sys = File.open('/tmp/test_hitsuji.tmp').readlines
@@ -57,5 +57,29 @@ class HitsujiTest < Minitest::Test
     sys3 = File.open('/tmp/test_hitsuji3.tmp').readlines
     sys4 = File.open('/tmp/test_hitsuji4.tmp').readlines
     assert_equal sys3, sys4
+  end
+
+  def test_system_interface
+    my_system = Hitsuji.new
+    my_item = Hitsuji.item(:foo, 'bar')
+    my_item2 = Hitsuji.item(:baz, 'quux')
+    my_system.bind(my_item, my_item2)
+
+    # find test
+    test_item = my_system.find(:foo)
+    assert_equal my_item, test_item
+    test_item2 = my_system.find(:baz)
+    assert_equal my_item2, test_item2
+
+    # edit test
+    test_item3 = my_system.edit(:foo, 'bar2')
+    assert_equal my_item, test_item3
+    refute_equal Hitsuji.item(:foo, 'bar'), test_item3
+
+    # remove test
+    test_item5 = my_system.remove(:baz)
+    assert_equal my_item2, test_item5
+    test_item6 = my_system.find(:baz)
+    assert_nil test_item6
   end
 end

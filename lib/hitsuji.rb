@@ -1,58 +1,11 @@
 require 'transfer'
 require 'subsystem'
 
-# The Hitsuji class is the interface to the Hitsuji module, and it contains
-# all the functions you need to use Hitsuji to its fullest extent. Examples of
-# this class can be found below, as well as in the README on GitHub.
-#
-# ==== Example 1
-#
-#     # getting the Hitsuji library from RubyGems
-#     require 'rubygems'
-#     require 'hitsuji'
-#
-#     # creating a system and importing some values we had before into it
-#     my_system = Hitsuji.new
-#     my_system.import('/a/valid/path')
-#
-#     # making some new items for our system
-#     my_item = my_system.item(:foo, 'Hey look, a new item!')
-#     my_item2 = my_system.item(:bar, 'And another.')
-#
-#     # making a linker with those items in it
-#     my_linker = my_system.linker(:baz, [my_item, my_item2])
-#     my_system.bind(my_item2, my_linker)
-#
-#     # exporting it for future use
-#     my_system.export('/another/valid/path')
-#
-# ==== Example 2
-#
-#     # getting the Hitsuji library from RubyGems
-#     require 'rubygems'
-#     require 'hitsuji'
-#
-#     # creating a new blank system
-#     my_system = Hitsuji.new
-#
-#     # adding two items and a linker with them both
-#     my_item = my_system.item(:foo, 42)
-#     my_item2 = my_system.item(:bar, 19)
-#     my_linker = my_system.linker(:baz, [my_item, my_item2])
-#
-#     # putting the linker into an operation
-#     my_system.bind(my_linker)
-#     my_op = my_system.operation(:quux, my_linker, %{
-#       |arg1, arg2| arg1 * arg2 - arg2 % arg1
-#     }) # => (42 * 19) - (19 % 42) => 779
-#
-#     # putting the operation into a new linker and then that into an operation
-#     my_linker2 = my_system.linker(:name, [my_linker, my_op])
-#     my_op2 = my_system.operation(:name2, my_linker2, %{
-#       |arg1, arg2, arg3| arg3 - arg1 / arg2 + 10
-#     }) # => 779 - (42 / 19) + 10 => 786.79 (to nearest 2 d.p.)
+# The Hitsuji class is the interface to this module, and it contains
+# all the functions you need. Examples using this class can be found in the
+# descriptions of the class and instance methods below.
 class Hitsuji
-  # Creates a new system where all operations can be performed.
+  # Creates a new system where all operations are performed.
   #
   # ==== Example
   #
@@ -61,9 +14,7 @@ class Hitsuji
     @struct = []
   end
 
-  # Creates a new item, the equivalent of a variable in the system. Once
-  # declared, the value of an item can be changed but not the name. No item
-  # is allowed to share the same name as any other.
+  # Creates a new item, the equivalent of a variable in the system.
   #
   # ==== Attributes
   #
@@ -74,15 +25,13 @@ class Hitsuji
   # ==== Example
   #
   #    my_system = Hitsuji.new                        # a new system
-  #    my_item = my_system.item(:foo, 'bar')          # a new item
-  def item(name, value)
-    new_item = Item.new(name, value)
-    new_item
+  #    my_item = Hitsuji.item(:foo, 'bar')            # a new item
+  def self.item(name, value)
+    Item.new(name, value)
   end
 
   # Creates a new linker, which is simply put a grouping of items and other
-  # linkers. Like an item, the value is changeable but the name is not, and it
-  # must not share its name with any other linker, or item for that matter.
+  # linkers.
   #
   # ==== Attributes
   #
@@ -93,16 +42,15 @@ class Hitsuji
   # ==== Example
   #
   #    my_system = Hitsuji.new                        # a new system
-  #    my_item = my_system.item(:foo, 'bar')          # a new item
-  #    my_item2 = my_system.item(:qux, 'quux')        # a second item
+  #    my_item = Hitsuji.item(:foo, 'bar')            # a new item
+  #    my_item2 = Hitsuji.item(:qux, 'quux')          # a second item
   #    items = [:foo, :qux]
-  #    my_linker = my_system.linker(:baz, items)      # a new linker
-  def linker(name, objs)
-    new_linker = Linker.new(name, objs)
-    new_linker
+  #    my_linker = Hitsuji.linker(:baz, items)        # a new linker
+  def self.linker(name, objs)
+    Linker.new(name, objs)
   end
 
-  # Creates a new operation, which is an operation performed on multiple items
+  # Creates a new operation, which is an equation performed on multiple items
   # contained within a linker. This linker can contain more linkers from which
   # more items will be progressively taken. An operation can then be used as
   # part of a linker, and the result can be used in another operation.
@@ -117,43 +65,45 @@ class Hitsuji
   # ==== Example
   #
   #    my_system = Hitsuji.new                        # a new system
-  #    my_item = my_system.item(:foo, 1)              # a new item
-  #    my_item2 = my_system.item(:qux, 2)             # a second item
+  #    my_item = Hitsuji.item(:foo, 1)                # a new item
+  #    my_item2 = Hitsuji.item(:qux, 2)               # a second item
   #    items = [:foo, :qux]
-  #    my_linker = my_system.linker(:baz, items)      # a new linker
-  #    my_op = my_system.operation(:op, my_linker, %{ # a new operation
+  #    my_linker = Hitsuji.linker(:baz, items)        # a new linker
+  #    my_op = Hitsuji.operation(:op, my_linker, %{   # a new operation
   #      |arg1, arg2| arg1 + arg2
   #    }) # => :foo + :qux => 1 + 2 => 3
-  def operation(name, input, block)
-    new_operation = Operation.new(name, input, block)
-    new_operation
+  def self.operation(name, input, block)
+    Operation.new(name, input, block)
   end
 
-  # Binds the inputted items to the system, allowing for the continous updating
-  # of the values within a system. This continuous updating is what gives
-  # Hitsuji its computational power.
+  # 'Binds' the inputted items to the system, allowing for the continous
+  # updating of the values within a system. This continuous updating forms the
+  # main principle of Hitsuji. Once bound, an object can only be edited using
+  # the Hitsuji.find, Hitsuji.edit and Hitsuji.remove methods. It can never
+  # share a name with any other bound object. Once bound, the name of an object
+  # becomes uneditable, but the value still keeps its read-write capabilites.
   #
   # ==== Attributes
   #
-  # * +*obj+ - the items, linkers and operation you want to bind
+  # * +obj+ - the items, linkers and operation you want to bind
   #
   # ==== Example
   #
   #    my_system = Hitsuji.new                        # a new system
-  #    my_item = my_system.item(:foo, 1)              # a new item
-  #    my_item2 = my_system.item(:qux, 2)             # a second item
+  #    my_item = Hitsuji.item(:foo, 1)                # a new item
+  #    my_item2 = Hitsuji.item(:qux, 2)               # a second item
   #    items = [:foo, :qux]
-  #    my_linker = my_system.linker(:baz, items)      # a new linker
+  #    my_linker = Hitsuji.linker(:baz, items)        # a new linker
   #    my_system.bind(my_item, my_item2, my_linker)   # binds items + linker
   def bind(*obj)
     @struct.concat obj
-    # update @struct
+    update @struct
   end
 
-  # Exports current state of system to a file. This process _does not export
-  # unbound items, linkers or operations!_ Creating new items doesn't
-  # automatically bind them to the system, even through they are a created with
-  # a method of a Hitsuji object.
+  # Exports the current state of the system to a file. This process *does not*
+  # export unbound items, linkers or operations! Creating new items doesn't
+  # automatically bind them to the system, so therefore the exported file
+  # only contains objects bound with Hitsuji.bind.
   #
   # ==== Attributes
   #
@@ -163,15 +113,15 @@ class Hitsuji
   # ==== Example
   #
   #    my_system = Hitsuji.new                        # a new system
-  #    my_item = my_system.item(:foo, 1)              # a new item
+  #    my_item = Hitsuji.item(:foo, 1)                # a new item
   #    my_system.bind(my_item)                        # binds item
   #    my_system.export('newfile.txt')                # exports to 'newfile.txt'
   def export(directory)
     Transfer.export(directory, @struct)
   end
 
-  # Imports file into a system, _overwriting anything already bound to the
-  # system_.
+  # Imports a file into a system, *overwriting anything already bound to the
+  # system*.
   #
   # ==== Attributes
   #
@@ -183,24 +133,124 @@ class Hitsuji
   #    my_system.import('oldfile.txt')                # imports 'oldfile.txt'
   def import(directory)
     @struct = Transfer.import(directory)
-    # update @struct
+    update @struct
   end
 
-  def self.update(obj) # :nodoc:
-    # names = []
-    # obj.each do |i|
-    #   throw 'err' if names.include?(i.name)
-    #   next unless i.class == Linker
-    #   update(linker.value).each do |j|
-    #     case j.class
-    #     when Item, Linker, Operator
-    #       names << j.name
-    #     else
-    #       throw 'err'
-    #     end
-    #   end
-    # end
-    #
-    # names
+  # Finds a bound object in the system by name, and returns the object if it
+  # exists.
+  #
+  # ==== Attributes
+  #
+  # * +query+ - the name of the object to search for
+  #
+  # ==== Example
+  #
+  #    my_system = Hitsuji.new                        # a new system
+  #    my_system.import('oldfile.txt')                # imports 'oldfile.txt'
+  #    my_item = my_system.find(:foo)                 # finds an item
+  def find(query)
+    get(query, @struct, nil, false)
   end
+
+  # Finds a bound object in the system by name, edits the object if it exists,
+  # and then returns the original object.
+  #
+  # ==== Attributes
+  #
+  # * +query+ - the name of the object to edit
+  # * +value+ - the new value to assign to this object
+  #
+  # ==== Example
+  #
+  #    my_system = Hitsuji.new                        # a new system
+  #    my_system.import('oldfile.txt')                # imports 'oldfile.txt'
+  #    my_item = my_system.edit(:foo, 'bar')          # changes an item
+  def edit(query, value)
+    get(query, @struct, value, false)
+  end
+
+  # Finds a bound object in the system by name, removes it if it exists, and
+  # then returns the original object.
+  #
+  # ==== Attributes
+  #
+  # * +query+ - the name of the object to remove
+  #
+  # ==== Example
+  #
+  #    my_system = Hitsuji.new                        # a new system
+  #    my_system.import('oldfile.txt')                # imports 'oldfile.txt'
+  #    my_item = my_system.remove(:foo)               # removes an item
+  def remove(query)
+    get(query, @struct, nil, true)
+  end
+
+  #--
+  # BEGINNING OF PRIVATE FUNCTIONS
+  #++
+
+  # Updates state of system to monitor name usageand dependencies on operations.
+  # This is run every time Hitsuji.bind or Hitsuji.import is run.
+  #
+  # ==== Attributes
+  #
+  # * +obj+ - the object to update (usually @struct)
+  #
+  # ==== Example
+  #
+  #    class MyHitsuji < Hitsuji                      # creates dependent class
+  #      def linker_update                            # my new special function!
+  #        @struct.each do |i|
+  #          update(@struct) if i.class == Linker      # uses update function
+  #        end
+  #      end
+  #    end
+  def update(obj)
+    names = []
+    obj.each do |i|
+      throw 'err' unless i.name.nil? || !names.include?(i.name)
+      names << update(i.value) if i.class == Linker
+    end
+    names
+  end
+
+  # Gets value of item from @struct and returns it. It can perform additional
+  # operations such as editing and removal.
+  #
+  # ==== Attributes
+  #
+  # * +query+ - the name of the object to perform the actions on
+  # * +obj+ - the object to search in (usually @struct)
+  # * +edit+ - the edit to make to the object (nil if not)
+  # * +remove+ - whether to remove the object (false if not)
+  #
+  # ==== Example
+  #
+  #    class MyHitsuji < Hitsuji                      # creates dependent class
+  #      def remove_from_linkers(query)               # my new special function!
+  #        @struct.each do |i|
+  #          if i.class == Linker
+  #            get(query, @struct, nil, true)         # uses get function
+  #          end
+  #        end
+  #      end
+  #    end
+  def get(query, obj, edit, remove) # :nodoc:
+    answer = nil
+    obj.each do |i|
+      if i.name == query
+        answer = i
+        if edit
+          i.value = edit
+        elsif remove
+          i.name = nil
+        end
+      elsif i.class == Linker
+        answer = view(query, i.value, edit, remove)
+      end
+    end
+    answer
+  end
+
+  private :update, :get
 end

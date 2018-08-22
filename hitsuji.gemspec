@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'hitsuji'
-  s.version = '0.0.2'
+  s.version = '0.1.0'
   s.license = 'MIT'
   s.summary = 'A utility for creating custom management systems.'
   s.description = 'Hitsuji is a library that lets you easily create, edit,
@@ -16,5 +16,5 @@ Gem::Specification.new do |s|
     'bug_tracker_uri'   => 'https://github.com/realtable/hitsuji/issues',
     'documentation_uri' => 'https://www.rubydoc.info/gems/hitsuji'
   }
-  s.required_ruby_version = '>= 2.0.0'
+  s.required_ruby_version = '>= 2.2.0'
 end

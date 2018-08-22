@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative '../lib/subsystem.rb'
+require 'hitsuji'
 
 class SubsystemTest < Minitest::Test
   # testing item class

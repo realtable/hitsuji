@@ -8,8 +8,7 @@ class Item
     @value = value
   end
 
-  attr_reader :name
-  attr_accessor :value
+  attr_accessor :name, :value
 end
 
 # The Linker class is the Hitsuji representation of an array, and its properties
@@ -24,15 +23,14 @@ class Linker
     @value = value
   end
 
-  attr_reader :name
-  attr_accessor :value
+  attr_accessor :name, :value
 end
 
 # The Operation class is the Hitsuji representation of an equation, and its
 # properties include a name, a value and a block. The value is an Linker with
-# read properties, and the values in this Linker are parsed into the block for
-# execution. This block is not presented as block however, but as a string, only
-# executed upon read of dependent values. Once the Operation is bound, a
+# read-write properties, and the values in this Linker are parsed into the block
+# for execution. This block is not presented as block however, but as a string,
+# only executed upon read of dependent values. Once the Operation is bound, a
 # seperate method must be used to read them. Linkers are the main interface
 # between Items and Operations. Examples of its use can be seen in the
 # documentation for the Hitsuji.operation method.
@@ -43,5 +41,6 @@ class Operation
     @block = block
   end
 
-  attr_reader :name, :input, :block
+  attr_reader :block
+  attr_accessor :name, :input
 end

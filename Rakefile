@@ -11,7 +11,7 @@ Rake::TestTask.new :test do |t|
   t.libs << 'test'
 end
 
-task :build do |_t|
+task :build do
   Rake::Task[:test].invoke
   Rake::Task[:rdoc].invoke
 end
