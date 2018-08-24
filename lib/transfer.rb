@@ -1,11 +1,18 @@
-require 'subsystem'
+require_relative 'subsystem.rb'
 
-class Transfer # :nodoc:
+# @private
+class Transfer
   def self.export(directory, struct)
-    File.open(directory, 'w') { |file| file.write(Marshal.dump(struct)) }
+    File.open(directory, 'w') do |file|
+      encoded = Marshal.dump(struct)
+      file.write([encoded].pack('u'))
+    end
   end
 
   def self.import(directory)
-    File.open(directory, 'r') { |file| return Marshal.load(file.read) }
+    File.open(directory, 'r') do |file|
+      decoded = file.read.unpack('u')
+      return Marshal.load(decoded.first)
+    end
   end
 end

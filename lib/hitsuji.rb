@@ -1,5 +1,5 @@
-require 'transfer'
-require 'subsystem'
+require_relative 'transfer.rb'
+require_relative 'subsystem.rb'
 
 # The Hitsuji class is the interface to this module, and it contains
 # all the functions you need. Examples using this class can be found in the
@@ -235,7 +235,7 @@ class Hitsuji
   #        end
   #      end
   #    end
-  def get(query, obj, edit, remove) # :nodoc:
+  def get(query, obj, edit, remove)
     answer = nil
     obj.each do |i|
       if i.name == query

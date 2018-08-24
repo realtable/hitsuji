@@ -4,11 +4,6 @@
 
 Hitsuji is a library that lets you easily create, edit, manage and apply custom management systems. It is scalable from library card databases to performance analysis all the way to complete content management systems (like Wordpress.com).
 
-home :: https://github.com/realtable/hitsuji
-rdoc :: https://www.rubydoc.info/gems/hitsuji
-gem :: https://rubygems.org/gems/hitsuji
-travis :: https://travis-ci.com/realtable/hitsuji
-
 == Installation
 
     $ gem install hitsuji
