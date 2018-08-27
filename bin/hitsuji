@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require 'hitsuji'
+
+HELP_TEXT = '
+Usage:
+hitsuji <command>
+  where <command> is one of:
+    X                           Does Y
+
+hitsuji -h, --help              Displays this help page
+hitsuji -v, --version           Show the version of Hitsuji being used
+'.freeze
+VERSION_TEXT = 'Hitsuji v0.1.2'.freeze
+
+def parse
+  case ARGV[0]
+  when '-h', '--help', nil
+    puts HELP_TEXT
+  when '-v', '--version'
+    puts VERSION_TEXT
+  end
+end
+
+parse
