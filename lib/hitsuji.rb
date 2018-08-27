@@ -69,9 +69,9 @@ class Hitsuji
   #    my_item2 = Hitsuji.item(:qux, 2)               # a second item
   #    items = [:foo, :qux]
   #    my_linker = Hitsuji.linker(:baz, items)        # a new linker
-  #    my_op = Hitsuji.operation(:op, my_linker, %{   # a new operation
+  #    my_op = Hitsuji.operation(:op, my_linker, %{
   #      |arg1, arg2| arg1 + arg2
-  #    }) # => :foo + :qux => 1 + 2 => 3
+  #    }) # => :foo + :qux => 1 + 2 => 3              # a new operation
   def self.operation(name, input, block)
     Operation.new(name, input, block)
   end
@@ -201,7 +201,7 @@ class Hitsuji
   #    class MyHitsuji < Hitsuji                      # creates dependent class
   #      def linker_update                            # my new special function!
   #        @struct.each do |i|
-  #          update(@struct) if i.class == Linker      # uses update function
+  #          update(@struct) if i.class == Linker     # uses update function
   #        end
   #      end
   #    end

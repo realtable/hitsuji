@@ -2,8 +2,7 @@ require 'rake/testtask'
 require 'rdoc/task'
 
 RDoc::Task.new :rdoc do |rdoc|
-  rdoc.main = 'lib/main.rdoc'
-  rdoc.rdoc_files.include('lib/main.rdoc', 'lib/**/*.rb')
+  rdoc.rdoc_files.include('lib/**/*.rb')
   rdoc.rdoc_dir = 'doc'
 end
 
