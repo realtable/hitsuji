@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+EVALUATE = 'Evaluates any given hitsuji file(s) and maps its true values to a
+JSON file.
+
+Usage: hitsuji publish <options> [file]
+
+where <options> is one of:
+  -a, --all                     Runs on all files in the folder
+  -q, --quiet                   Runs in quiet mode
+  -V, --verbose                 Runs in verbose mode
+'.freeze
+
+case ARGV[0]
+when 'evaluate'
+  puts EVALUATE
+else
+  puts 'Non-existent command: ' + ARGV[0] if ARGV[0]
+end

@@ -1,24 +1,38 @@
 #!/usr/bin/env ruby
 
-require 'hitsuji'
+HELP = 'Usage: hitsuji <command>
 
-HELP_TEXT = '
-Usage:
-hitsuji <command>
-  where <command> is one of:
-    X                           Does Y
+where <command> is one of:
+  evaluate                      Evaluates hitsuji file to JSON
 
-hitsuji -h, --help              Displays this help page
-hitsuji -v, --version           Show the version of Hitsuji being used
+hitsuji help <command>          Display specific help for a command
+hitsuji -h, --help              Display this help page
+hitsuji -v, --version           Show the installed version number
 '.freeze
-VERSION_TEXT = 'Hitsuji v0.1.2'.freeze
+
+VERSION = 'Hitsuji v0.1.2 @ '.freeze + File.expand_path(__FILE__)
+
+def parse_commands
+  extra_args = ARGV[1..-1].join(' ') if ARGV[1..-1]
+
+  case ARGV[0]
+  when 'help'
+    command = 'ruby -Ilib ' + __dir__ + '/commands/help ' + extra_args
+  when 'evaluate'
+    command = 'ruby -Ilib ' + __dir__ + '/commands/evaluate ' + extra_args
+  end
+
+  exec command
+end
 
 def parse
   case ARGV[0]
   when '-h', '--help', nil
-    puts HELP_TEXT
+    puts HELP
   when '-v', '--version'
-    puts VERSION_TEXT
+    puts VERSION
+  else
+    parse_commands
   end
 end
 
