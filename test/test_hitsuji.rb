@@ -1,4 +1,5 @@
 require 'minitest/autorun'
+require 'tmpdir'
 require 'hitsuji'
 
 class HitsujiTest < Minitest::Test
@@ -34,29 +35,31 @@ class HitsujiTest < Minitest::Test
     my_system3 = Hitsuji.new
     my_system4 = Hitsuji.new
 
-    # export test
-    x = Hitsuji.item(:i, 2)
-    my_system.bind(x)
-    my_system.bind(Hitsuji.linker(:j, [x]))
-    my_system.export(Temp + 'test_hitsuji.tmp')
+    Dir.mktmpdir do |dir|
+      # export test
+      x = Hitsuji.item(:i, 2)
+      my_system.bind(x)
+      my_system.bind(Hitsuji.linker(:j, [x]))
+      my_system.export(dir + 'test_hitsuji.tmp')
 
-    my_system2.bind(x)
-    my_system2.bind(Hitsuji.linker(:j, [x]))
-    my_system2.export(Temp + 'test_hitsuji2.tmp')
+      my_system2.bind(x)
+      my_system2.bind(Hitsuji.linker(:j, [x]))
+      my_system2.export(dir + 'test_hitsuji2.tmp')
 
-    sys = File.open(Temp + 'test_hitsuji.tmp').readlines
-    sys2 = File.open(Temp + 'test_hitsuji2.tmp').readlines
-    assert_equal sys, sys2
+      sys = File.open(dir + 'test_hitsuji.tmp').readlines
+      sys2 = File.open(dir + 'test_hitsuji2.tmp').readlines
+      assert_equal sys, sys2
 
-    # import test
-    my_system3.import(Temp + 'test_hitsuji.tmp')
-    my_system4.import(Temp + 'test_hitsuji2.tmp')
-    my_system3.export(Temp + 'test_hitsuji3.tmp')
-    my_system4.export(Temp + 'test_hitsuji4.tmp')
+      # import test
+      my_system3.import(dir + 'test_hitsuji.tmp')
+      my_system4.import(dir + 'test_hitsuji2.tmp')
+      my_system3.export(dir + 'test_hitsuji3.tmp')
+      my_system4.export(dir + 'test_hitsuji4.tmp')
 
-    sys3 = File.open(Temp + 'test_hitsuji3.tmp').readlines
-    sys4 = File.open(Temp + 'test_hitsuji4.tmp').readlines
-    assert_equal sys3, sys4
+      sys3 = File.open(dir + 'test_hitsuji3.tmp').readlines
+      sys4 = File.open(dir + 'test_hitsuji4.tmp').readlines
+      assert_equal sys3, sys4
+    end
   end
 
   def test_system_interface

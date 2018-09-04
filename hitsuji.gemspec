@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'hitsuji'
-  s.version = '0.1.2'
+  s.version = '0.1.3'
   s.license = 'MIT'
   s.summary = 'A utility for creating custom management systems.'
   s.description = 'Hitsuji is a library that lets you easily create, edit,
