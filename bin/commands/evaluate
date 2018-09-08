@@ -1,9 +1,52 @@
 #!/usr/bin/env ruby
 require 'hitsuji'
+require 'json'
 
-case ARGV[0]
-when '-h', '--help', nil
-  exec 'ruby -Ilib ' + __dir__ + '/help evaluate'
+def parse
+  scope = nil
+  log_level = :normal
+  help = false
+
+  (0..ARGV.length).each do |i|
+    case ARGV[i]
+    when '-h', '--help'
+      exec 'ruby -Ilib ' + __dir__ + '/help evaluate'
+      help = true
+    when '-a', '--all'
+      scope = :all
+    when '-q', '--quiet'
+      log_level = :quiet
+    when '-V', '--verbose'
+      log_level = :verbose
+    else
+      scope = ARGV[i] unless ARGV[i].nil?
+    end
+  end
+
+  [scope, log_level, help]
 end
 
-# TODO
+# def jsonify(file)
+#   hitsuji_obj = {}
+#   puts "sent scope: #{scope}"
+#
+#
+#
+#   json_obj = JSON.generate(hitsuji_obj)
+#   JSON.parse(json_obj)
+# end
+
+scope, log_level, help = parse
+puts "#{scope}, #{log_level} and #{help}"
+
+# unless help
+#   converted = []
+#
+#   if scope == :all
+#     converted << jsonify()
+#   else
+#     converted << jsonify(scope)
+#   end
+#
+#   puts converted if converted
+# end

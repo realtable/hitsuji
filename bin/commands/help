@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 EVALUATE = 'Evaluates any given hitsuji file(s) and maps its true values to a
-JSON file.
+JSON file. This file has the same name as the corresponding hitsuji file(s).
 
 Usage: hitsuji publish <options> [file]
 

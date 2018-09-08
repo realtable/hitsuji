@@ -12,7 +12,8 @@ class HitsujiTest < Minitest::Test
   def test_help_command
     assert_equal `#{COMMAND_PREFIX} help evaluate`,
                  `#{COMMAND_PREFIX} evaluate -h`
-    assert_equal `#{COMMAND_PREFIX} help evaluate`,
-                 `#{COMMAND_PREFIX} evaluate`
   end
+
+  # def test_evaluate_command
+  # end
 end
