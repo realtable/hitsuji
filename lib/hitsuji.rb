@@ -12,6 +12,10 @@ class Hitsuji
   #    my_system = Hitsuji.new
   def initialize
     @struct = []
+    @metadata = {
+      date_created: `date`,
+      date_edited: `date`
+    }
   end
 
   # Creates a new item, the equivalent of a variable in the system.
@@ -118,7 +122,7 @@ class Hitsuji
   #    my_system.bind(my_item)                        # binds item
   #    my_system.export('newfile.hitsuji')            # exports to 'newfile.txt'
   def export(directory)
-    Transfer.export(directory, @struct)
+    Transfer.export(directory, @struct, @metadata)
   end
 
   # Imports a file into a system, *overwriting anything already bound to the
@@ -133,7 +137,7 @@ class Hitsuji
   #    my_system = Hitsuji.new                        # a new system
   #    my_system.import('oldfile.hitsuji')            # imports 'oldfile.txt'
   def import(directory)
-    @struct = Transfer.import(directory)
+    @struct, @metadata = Transfer.import(directory)
     update @struct
   end
 
@@ -212,6 +216,8 @@ class Hitsuji
       throw 'err' unless i.name.nil? || !names.include?(i.name)
       names << update(i.value) if i.class == Linker
     end
+
+    @metadata[:date_edited] = `date`
     names
   end
 

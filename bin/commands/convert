@@ -4,7 +4,7 @@ require 'yaml'
 
 def parse
   scope = []
-  log_level = false
+  log_level = true
   to_yaml = true
 
   (0..ARGV.length).each do |i|
@@ -27,6 +27,7 @@ end
 
 def parse_scope(scope, log_level)
   scope_list = []
+
   scope.each do |dir|
     if dir.end_with?('.hitsuji', '.yml')
       scope_list << File.expand_path(dir)
@@ -34,21 +35,27 @@ def parse_scope(scope, log_level)
       puts "Failed to convert '#{dir}': invalid file extension"
     end
   end
+
   scope_list
 end
 
 def write_yaml(dir)
-  file_name = dir.sub '.hitsuji', '.yml'
-  hitsuji_content = Transfer.import dir
+  file_name = dir.sub('.hitsuji', '.yml')
+  hitsuji_content, = Transfer.import dir
   yaml_content = YAML.dump hitsuji_content
   File.write(file_name, yaml_content)
 end
 
 def write_hitsuji(dir)
-  file_name = dir.sub '.yml', '.hitsuji'
+  file_name = dir.sub('.yml', '.hitsuji')
   yaml_content = File.read dir
   hitsuji_content = YAML.load yaml_content
-  Transfer.export(file_name, hitsuji_content)
+
+  hitsuji_metadata = {
+    date_created: `date`,
+    date_edited: `date`
+  }
+  Transfer.export(file_name, hitsuji_content, hitsuji_metadata)
 end
 
 # main

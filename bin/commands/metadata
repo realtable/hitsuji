@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+require 'hitsuji'
+require 'yaml'
+
+def parse
+  scope = []
+
+  (0..ARGV.length).each do |i|
+    case ARGV[i]
+    when '-h', '--help'
+      exec 'ruby -Ilib ' + __dir__ + '/help metadata'
+    else
+      scope << ARGV[i] unless ARGV[i].nil?
+    end
+  end
+
+  scope
+end
+
+def parse_scope(scope)
+  scope_list = []
+
+  scope.each do |dir|
+    if dir.end_with?('.hitsuji')
+      scope_list << File.expand_path(dir)
+    else
+      puts "Cannot analyse '#{dir}': invalid file extension"
+    end
+  end
+
+  scope_list
+end
+
+scope = parse
+puts 'Collating files...'
+scope_list = parse_scope(scope)
+
+scope_list.each do |dir|
+  puts "\n#{dir}:"
+  _, metadata = Transfer.import dir
+  puts "  Date Created:     #{metadata[:date_created]}"
+  puts "  Date Last Edited: #{metadata[:date_edited]}"
+end
