@@ -14,25 +14,25 @@ class HitsujiTest < Minitest::Test
       x = Hitsuji.item(:i, 2)
       my_system.bind(x)
       my_system.bind(Hitsuji.linker(:j, [x]))
-      my_system.export(dir + 'hitsuji.tmp')
+      my_system.export(dir + 'hitsuji.hitsuji')
 
       my_system2.bind(x)
       my_system2.bind(Hitsuji.linker(:j, [x]))
-      my_system2.export(dir + 'hitsuji2.tmp')
+      my_system2.export(dir + 'hitsuji2.hitsuji')
 
-      sys = File.open(dir + 'hitsuji.tmp').readlines
-      sys2 = File.open(dir + 'hitsuji2.tmp').readlines
+      sys = File.open(dir + 'hitsuji.hitsuji').readlines
+      sys2 = File.open(dir + 'hitsuji2.hitsuji').readlines
       assert_equal sys, sys2
 
       # import test
-      my_system3.import(dir + 'hitsuji.tmp')
-      my_system4.import(dir + 'hitsuji2.tmp')
+      my_system3.import(dir + 'hitsuji.hitsuji')
+      my_system4.import(dir + 'hitsuji2.hitsuji')
 
-      my_system3.export(dir + 'hitsuji3.tmp')
-      my_system4.export(dir + 'hitsuji4.tmp')
+      my_system3.export(dir + 'hitsuji3.hitsuji')
+      my_system4.export(dir + 'hitsuji4.hitsuji')
 
-      sys3 = File.open(dir + 'hitsuji3.tmp').readlines
-      sys4 = File.open(dir + 'hitsuji4.tmp').readlines
+      sys3 = File.open(dir + 'hitsuji3.hitsuji').readlines
+      sys4 = File.open(dir + 'hitsuji4.hitsuji').readlines
       assert_equal sys3, sys4
     end
   end

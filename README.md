@@ -9,7 +9,7 @@ Hitsuji is a library that lets you easily create, edit, manage and apply custom 
 
 | home   | https://github.com/realtable/hitsuji        |
 |:------ |:------------------------------------------- |
-| docs   | https://www.rubydoc.info/gems/hitsuji/0.1.3 |
+| docs   | https://www.rubydoc.info/gems/hitsuji/0.2.0 |
 | gem    | https://rubygems.org/gems/hitsuji           |
 | travis | https://travis-ci.com/realtable/hitsuji     |
 

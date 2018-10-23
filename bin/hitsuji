@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+HELP = 'Usage: hitsuji <command>
+
+where <command> is one of:
+  convert                       Converts Hitsuji file to YAML file or vice versa
+
+hitsuji help <command>          Display specific help for a command
+hitsuji -h, --help              Display this help page
+hitsuji -v, --version           Show the installed version number
+'.freeze
+
+VERSION = "Hitsuji v0.2.0 @ #{File.expand_path(__FILE__)}".freeze
+
+def parse_commands
+  extra_args = ARGV[1..-1].join(' ') if ARGV[1..-1]
+
+  case ARGV[0]
+  when 'help'
+    command = "ruby -Ilib #{__dir__}/commands/help #{extra_args}"
+  when 'convert'
+    command = "ruby -Ilib #{__dir__}/commands/convert #{extra_args}"
+  end
+
+  exec command
+end
+
+def parse
+  case ARGV[0]
+  when '-h', '--help', nil
+    puts HELP
+  when '-v', '--version'
+    puts VERSION
+  else
+    parse_commands
+  end
+end
+
+parse

@@ -103,7 +103,8 @@ class Hitsuji
   # Exports the current state of the system to a file. This process *does not*
   # export unbound items, linkers or operations! Creating new items doesn't
   # automatically bind them to the system, so therefore the exported file
-  # only contains objects bound with Hitsuji.bind.
+  # only contains objects bound with Hitsuji.bind. The Hitsuji file must end
+  # with ".hitsuji".
   #
   # ==== Attributes
   #
@@ -115,13 +116,13 @@ class Hitsuji
   #    my_system = Hitsuji.new                        # a new system
   #    my_item = Hitsuji.item(:foo, 1)                # a new item
   #    my_system.bind(my_item)                        # binds item
-  #    my_system.export('newfile.txt')                # exports to 'newfile.txt'
+  #    my_system.export('newfile.hitsuji')            # exports to 'newfile.txt'
   def export(directory)
     Transfer.export(directory, @struct)
   end
 
   # Imports a file into a system, *overwriting anything already bound to the
-  # system*.
+  # system*. The Hitsuji file must end with ".hitsuji".
   #
   # ==== Attributes
   #
@@ -130,7 +131,7 @@ class Hitsuji
   # ==== Example
   #
   #    my_system = Hitsuji.new                        # a new system
-  #    my_system.import('oldfile.txt')                # imports 'oldfile.txt'
+  #    my_system.import('oldfile.hitsuji')            # imports 'oldfile.txt'
   def import(directory)
     @struct = Transfer.import(directory)
     update @struct
@@ -146,7 +147,7 @@ class Hitsuji
   # ==== Example
   #
   #    my_system = Hitsuji.new                        # a new system
-  #    my_system.import('oldfile.txt')                # imports 'oldfile.txt'
+  #    my_system.import('oldfile.hitsuji')            # imports 'oldfile.txt'
   #    my_item = my_system.find(:foo)                 # finds an item
   def find(query)
     get(query, @struct, nil, false)
@@ -163,7 +164,7 @@ class Hitsuji
   # ==== Example
   #
   #    my_system = Hitsuji.new                        # a new system
-  #    my_system.import('oldfile.txt')                # imports 'oldfile.txt'
+  #    my_system.import('oldfile.hitsuji')            # imports 'oldfile.txt'
   #    my_item = my_system.edit(:foo, 'bar')          # changes an item
   def edit(query, value)
     get(query, @struct, value, false)
@@ -179,14 +180,14 @@ class Hitsuji
   # ==== Example
   #
   #    my_system = Hitsuji.new                        # a new system
-  #    my_system.import('oldfile.txt')                # imports 'oldfile.txt'
+  #    my_system.import('oldfile.hitsuji')            # imports 'oldfile.txt'
   #    my_item = my_system.remove(:foo)               # removes an item
   def remove(query)
     get(query, @struct, nil, true)
   end
 
   #--
-  # BEGINNING OF PRIVATE FUNCTIONS
+  # BEGINNING OF FUCKED UP FUNCTIONS
   #++
 
   # Updates state of system to monitor name usageand dependencies on operations.
