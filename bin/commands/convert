@@ -1,0 +1,68 @@
+#!/usr/bin/env ruby
+require 'hitsuji'
+require 'yaml'
+
+def parse
+  scope = []
+  log_level = false
+  to_yaml = true
+
+  (0..ARGV.length).each do |i|
+    case ARGV[i]
+    when '-h', '--help'
+      exec 'ruby -Ilib ' + __dir__ + '/help convert'
+    when '-q', '--quiet'
+      log_level = false
+    when '-y', '--to-yaml'
+      to_yaml = true
+    when '-j', '--to-hitsuji'
+      to_yaml = false
+    else
+      scope << ARGV[i] unless ARGV[i].nil?
+    end
+  end
+
+  [scope, log_level, to_yaml]
+end
+
+def parse_scope(scope, log_level)
+  scope_list = []
+  scope.each do |dir|
+    if dir.end_with?('.hitsuji', '.yml')
+      scope_list << File.expand_path(dir)
+    elsif log_level
+      puts "Failed to convert '#{dir}': invalid file extension"
+    end
+  end
+  scope_list
+end
+
+def write_yaml(dir)
+  file_name = dir.sub '.hitsuji', '.yml'
+  hitsuji_content = Transfer.import dir
+  yaml_content = YAML.dump hitsuji_content
+  File.write(file_name, yaml_content)
+end
+
+def write_hitsuji(dir)
+  file_name = dir.sub '.yml', '.hitsuji'
+  yaml_content = File.read dir
+  hitsuji_content = YAML.load yaml_content
+  Transfer.export(file_name, hitsuji_content)
+end
+
+# main
+scope, log_level, to_yaml = parse
+puts 'Collating files...' if log_level
+scope_list = parse_scope(scope, log_level)
+
+scope_list.each do |dir|
+  puts "Converting #{dir}..." if log_level
+  if to_yaml
+    write_yaml dir
+  else
+    write_hitsuji dir
+  end
+end
+
+puts "Converted #{scope_list.length} file(s)" if log_level

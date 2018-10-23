@@ -1,25 +1,24 @@
 #!/usr/bin/env ruby
-
 HELP = 'Usage: hitsuji <command>
 
 where <command> is one of:
-  evaluate                      Evaluates hitsuji file to JSON
+  convert                       Converts Hitsuji file to YAML file or vice versa
 
 hitsuji help <command>          Display specific help for a command
 hitsuji -h, --help              Display this help page
 hitsuji -v, --version           Show the installed version number
 '.freeze
 
-VERSION = 'Hitsuji v0.1.2 @ '.freeze + File.expand_path(__FILE__)
+VERSION = "Hitsuji v0.1.1 @ #{File.expand_path(__FILE__)}".freeze
 
 def parse_commands
   extra_args = ARGV[1..-1].join(' ') if ARGV[1..-1]
 
   case ARGV[0]
   when 'help'
-    command = 'ruby -Ilib ' + __dir__ + '/commands/help ' + extra_args
-  when 'evaluate'
-    command = 'ruby -Ilib ' + __dir__ + '/commands/evaluate ' + extra_args
+    command = "ruby -Ilib #{__dir__}/commands/help #{extra_args}"
+  when 'convert'
+    command = "ruby -Ilib #{__dir__}/commands/convert #{extra_args}"
   end
 
   exec command

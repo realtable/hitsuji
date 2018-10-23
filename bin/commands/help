@@ -1,19 +1,20 @@
 #!/usr/bin/env ruby
 
-EVALUATE = 'Evaluates any given hitsuji file(s) and maps its true values to a
-JSON file. This file has the same name as the corresponding hitsuji file(s).
+CONVERT = 'Takes any given Hitsuji file(s) and maps its true values to a
+YAML file or vice versa. The output file(s) will have the same name as the input
+file(s).
 
-Usage: hitsuji publish <options> [file]
+Usage: hitsuji convert <options> [files]
 
 where <options> is one of:
-  -a, --all                     Runs on all files in the folder
   -q, --quiet                   Runs in quiet mode
-  -V, --verbose                 Runs in verbose mode
+  -y, --to-yaml                     Convert from Hitsuji to YAML (default)
+  -j, --to-hitsuji                  Convert from YAML to Hitsuji
 '.freeze
 
 case ARGV[0]
-when 'evaluate'
-  puts EVALUATE
+when 'convert'
+  puts CONVERT
 else
   puts 'Non-existent command: ' + ARGV[0] if ARGV[0]
 end
