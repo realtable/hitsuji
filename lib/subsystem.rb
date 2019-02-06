@@ -3,7 +3,6 @@
 # Item is bound, a seperate method must be used to read and change it. Examples
 # of its use can be seen in the documentation for the Hitsuji.item method.
 class Item
-  # @private
   def initialize(name, value)
     @name = name
     @value = value
@@ -19,7 +18,6 @@ end
 # Examples of its use can be seen in the documentation for the Hitsuji.linker
 # method.
 class Linker
-  # @private
   def initialize(name, value)
     @name = name
     @value = value
@@ -37,7 +35,6 @@ end
 # between Items and Operations. Examples of its use can be seen in the
 # documentation for the Hitsuji.operation method.
 class Operation
-  # @private
   def initialize(name, input, block)
     @name = name
     @input = input
