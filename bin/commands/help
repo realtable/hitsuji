@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-CONVERT = 'Takes any given Hitsuji file(s) and maps its true values to a
-YAML file or vice versa. The output file(s) will have the same name as the input
+CONVERT = 'Takes any given Hitsuji file(s) and maps its true values to a YAML
+file or vice versa. The output file(s) will have the same name as the input
 file(s).
 
 Usage: hitsuji convert <options> [files]

@@ -14,7 +14,7 @@ this software, e.g. handling big data, managing content, etc.
 
 | home   | https://github.com/realtable/hitsuji        |
 |:------ |:------------------------------------------- |
-| docs   | https://www.rubydoc.info/gems/hitsuji/0.2.2 |
+| docs   | https://www.rubydoc.info/gems/hitsuji/0.3.0 |
 | gem    | https://rubygems.org/gems/hitsuji           |
 | travis | https://travis-ci.com/realtable/hitsuji     |
 

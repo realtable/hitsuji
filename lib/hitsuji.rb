@@ -6,7 +6,7 @@ require_relative 'control.rb'
 # all the functions you need. Examples using this class can be found in the
 # descriptions of the class and instance methods below.
 class Hitsuji
-  # Creates a new system where all operations are performed.
+  # Creates a new empty system.
   #
   # ==== Example
   #
@@ -65,7 +65,7 @@ class Hitsuji
   # * +name+ - the name of the new linker, which is written as a symbol.
   # * +input+ - the contents of the new linker, whether that be an item or
   #   another linker.
-  # * +block+ - a block as a string to perform the operation
+  # * +block+ - a block that performs the operation
   #
   # ==== Example
   #
@@ -74,10 +74,10 @@ class Hitsuji
   #    my_item2 = Hitsuji.item(:qux, 2)               # a second item
   #    items = [:foo, :qux]
   #    my_linker = Hitsuji.linker(:baz, items)        # a new linker
-  #    my_op = Hitsuji.operation(:op, my_linker, %{
+  #    my_op = Hitsuji.operation(:op, my_linker) {
   #      |arg1, arg2| arg1 + arg2
-  #    }) # => :foo + :qux => 1 + 2 => 3              # a new operation
-  def self.operation(name, input, block)
+  #    } # => :foo + :qux => 1 + 2 => 3              # a new operation
+  def self.operation(name, input, &block)
     Operation.new(name, input, block)
   end
 
@@ -90,7 +90,7 @@ class Hitsuji
   #
   # ==== Attributes
   #
-  # * +obj+ - the items, linkers and operation you want to bind
+  # * +obj+ - the items, linkers and operations you want to bind
   #
   # ==== Example
   #

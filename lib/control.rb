@@ -1,7 +1,7 @@
 # control class
 class Control
   # Updates state of system to monitor name usage and dependencies on
-  # operations. This is run every time Hitsuji.bind or Hitsuji.import is run.
+  # operations. This is run every time Hitsuji.bind is run.
   #
   # ==== Attributes
   #

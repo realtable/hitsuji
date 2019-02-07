@@ -1,6 +1,7 @@
 language: ruby
 rvm: 2.2.0
 script: rake test && rake rdoc
+install: gem install method_source --version 0.9.2
 deploy:
   provider: rubygems
   gem: hitsuji
