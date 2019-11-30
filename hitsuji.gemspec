@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'hitsuji'
-  s.version = '0.3.0'
+  s.version = '0.3.1'
   s.license = 'MIT'
   s.summary = 'A utility in Ruby for tree data structures with functions.'
   s.description = 'Hitsuji is a library that implements a tree data structure,
@@ -18,9 +18,9 @@ Gem::Specification.new do |s|
     'source_code_uri' => 'https://github.com/realtable/hitsuji',
     'bug_tracker_uri' => 'https://github.com/realtable/hitsuji/issues',
     'documentation_uri' => 'https://www.rubydoc.info/gems/hitsuji/' \
-      + s.version.to_s
+      + s.version.to_s + '/Hitsuji'
   }
-  s.required_ruby_version = '>= 2.2.0'
+  s.required_ruby_version = '>= 0'
   s.bindir = 'bin'
   s.executables << 'hitsuji'
   s.add_runtime_dependency 'method_source', '~> 0.9.2'
